@@ -35,35 +35,9 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Syne:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons.css">
-    <link rel="stylesheet" href="style.css">
 </head>
 
-<body oncontextmenu="return false;">
-    <script>
-        document.addEventListener('keydown', function (event) {
-            const forbidden = [
-                'F12',
-                'Shift+F12',
-                'Ctrl+Shift+I',
-                'Ctrl+Shift+C',
-                'Ctrl+U',
-                'Ctrl+S'
-            ];
-
-            const pressed = [];
-            if (event.ctrlKey) pressed.push('Ctrl');
-            if (event.shiftKey) pressed.push('Shift');
-            if (event.altKey) pressed.push('Alt');
-            pressed.push(event.key);
-
-            const combo = pressed.join('+');
-            if (forbidden.includes(combo) || forbidden.includes(event.key)) {
-                event.preventDefault();
-            }
-        });
-    </script>
-
+<body>
     <!-- Loader -->
     <div class="loader" id="loader">
         <div class="loader-content">
@@ -174,15 +148,17 @@
         </div>
 
         <div class="hero-photo" aria-hidden="true">
-            <img src="./assets/imgs/2.png" alt="Professional business portrait of James in a suit">
+            <img src="./assets/imgs/2.webp" alt="Professional business portrait of James in a suit"
+                width="768" height="1151" fetchpriority="high" decoding="async">
         </div>
     </section>
 
     <!-- About Section -->
     <section class="about" id="about">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-image reveal fade-left">
+        <div class="mx-auto w-full max-w-[1320px]">
+            <div
+                class="grid grid-cols-1 items-center gap-[clamp(28px,7vw,48px)] min-[1201px]:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] min-[1201px]:gap-20">
+                <div class="about-image reveal fade-left min-w-0">
                     <div class="about-frame"></div>
                     <div class="about-badge">
                         <i class="fas fa-award"></i>
@@ -213,7 +189,7 @@
                     </div>
                 </div>
 
-                <div class="about-content reveal fade-right">
+                <div class="about-content reveal fade-right min-w-0">
                     <h2>Creating <span class="highlight">Scalable Digital Experiences</span> with Purpose</h2>
 
                     <div class="about-text">
@@ -254,7 +230,7 @@
 
     <!-- Services Section -->
     <section class="services" id="services">
-        <div class="container">
+        <div class="mx-auto w-full max-w-[1320px]">
             <div class="section-header reveal">
                 <span class="section-label"><i class="fas fa-cog"></i> What I Offer</span>
                 <h2 class="section-title">My <span class="highlight">Services</span></h2>
@@ -264,7 +240,8 @@
                 </p>
             </div>
 
-            <div class="services-grid stagger">
+            <div
+                class="stagger grid grid-cols-1 items-stretch gap-[18px] min-[720px]:grid-cols-[repeat(auto-fit,minmax(min(100%,20.625rem),1fr))] min-[720px]:gap-7">
                 <div class="service-card">
                     <span class="service-number">01</span>
                     <div class="service-icon">
@@ -331,7 +308,7 @@
     <!-- Skills Section -->
 
     <section class="skills" id="skills">
-        <div class="container">
+        <div class="mx-auto w-full max-w-[1320px]">
             <div class="section-header reveal">
                 <h2 class="section-title">
                     Skills & <span class="highlight">Proficiency</span>
@@ -357,7 +334,8 @@
                         <h3>Frontend Development</h3>
                         <span>6 skills</span>
                     </div>
-                    <div class="skills-grid">
+                    <div
+                        class="grid grid-cols-1 gap-[18px] min-[720px]:grid-cols-[repeat(auto-fit,minmax(min(100%,20rem),1fr))] min-[720px]:gap-[22px]">
                         <div class="skill-item">
                             <div class="skill-header">
                                 <span class="skill-name">
@@ -476,7 +454,8 @@
                         <h3>Backend & API Engineering</h3>
                         <span>5 skills</span>
                     </div>
-                    <div class="skills-grid">
+                    <div
+                        class="grid grid-cols-1 gap-[18px] min-[720px]:grid-cols-[repeat(auto-fit,minmax(min(100%,20rem),1fr))] min-[720px]:gap-[22px]">
                         <div class="skill-item">
                             <div class="skill-header">
                                 <span class="skill-name">
@@ -551,7 +530,8 @@
                         <h3>Data, Cloud & DevOps</h3>
                         <span>5 skills</span>
                     </div>
-                    <div class="skills-grid">
+                    <div
+                        class="grid grid-cols-1 gap-[18px] min-[720px]:grid-cols-[repeat(auto-fit,minmax(min(100%,20rem),1fr))] min-[720px]:gap-[22px]">
                         <div class="skill-item">
                             <div class="skill-header">
                                 <span class="skill-name">
@@ -627,7 +607,8 @@
                         <h3>Tools, Workflow & AI</h3>
                         <span>6 skills</span>
                     </div>
-                    <div class="skills-grid">
+                    <div
+                        class="grid grid-cols-1 gap-[18px] min-[720px]:grid-cols-[repeat(auto-fit,minmax(min(100%,20rem),1fr))] min-[720px]:gap-[22px]">
                         <div class="skill-item">
                             <div class="skill-header">
                                 <span class="skill-name">
@@ -718,7 +699,7 @@
 
     <!-- Experience Section -->
     <section class="experience" id="experience">
-        <div class="container">
+        <div class="mx-auto w-full max-w-[1320px]">
             <div class="section-header reveal">
                 <span class="section-label"><i class="fas fa-trophy"></i> My Journey</span>
                 <h2 class="section-title">Experience & <span class="highlight">Achievements</span></h2>
@@ -727,7 +708,8 @@
                 </p>
             </div>
 
-            <div class="experience-grid stagger">
+            <div
+                class="stagger mx-auto grid w-full max-w-[1000px] grid-cols-1 gap-4 min-[769px]:grid-cols-2 min-[769px]:gap-5 min-[1000px]:grid-cols-3 min-[1201px]:gap-7">
                 <div class="experience-card">
                     <div class="experience-icon">
                         <i class="fas fa-folder-open"></i>
@@ -757,7 +739,7 @@
 
     <!-- Projects Section -->
     <section class="portfolio" id="projects">
-        <div class="container">
+        <div class="mx-auto w-full max-w-[1320px]">
             <div class="section-header reveal">
                 <span class="section-label"><i class="fas fa-play-circle"></i> My Work</span>
                 <h2 class="section-title">Featured <span class="highlight">Projects</span></h2>
@@ -767,7 +749,8 @@
                 </p>
             </div>
 
-            <div class="portfolio-video-grid stagger">
+            <div
+                class="stagger mx-auto grid w-full min-w-0 auto-rows-fr max-w-[520px] grid-cols-1 gap-[22px] sm:max-w-[760px] sm:grid-cols-2 sm:gap-6 lg:max-w-[1150px] lg:grid-cols-3 lg:gap-8 print:max-w-none print:grid-cols-2">
                 <!-- Project 1 -->
                 <div class="portfolio-video-card" tabindex="0" data-project="medtrack" role="button"
                     aria-label="Open MedTrack project details">
@@ -899,9 +882,10 @@
 
     <!-- Contact Section -->
     <section class="contact" id="contact">
-        <div class="container">
-            <div class="contact-grid">
-                <div class="contact-info reveal fade-left">
+        <div class="mx-auto w-full max-w-[1320px]">
+            <div
+                class="grid grid-cols-1 gap-[clamp(28px,7vw,48px)] min-[1201px]:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)] min-[1201px]:gap-[60px]">
+                <div class="contact-info reveal fade-left min-w-0">
                     <h2>Let's <span class="highlight">Work Together</span></h2>
                     <p>
                         Have an idea for your next website or web application? <br>
@@ -944,7 +928,7 @@
                 </div>
 
                 <!-- Contact Form with Web3Forms -->
-                <form class="contact-form reveal fade-right" action="https://api.web3forms.com/submit" method="POST"
+                <form class="contact-form reveal fade-right min-w-0" action="https://api.web3forms.com/submit" method="POST"
                     id="contactForm" novalidate>
 
                     <!-- Web3Forms Configuration -->
@@ -955,7 +939,7 @@
                     <input type="hidden" name="redirect" value="https://web3forms.com/success">
                     <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off">
 
-                    <div class="form-row">
+                    <div class="grid grid-cols-1 gap-0 min-[769px]:grid-cols-2 min-[769px]:gap-5">
                         <div class="form-group">
                             <label for="name">Your Name <span class="required">*</span></label>
                             <input type="text" id="name" name="name" placeholder="James Carter" required
@@ -968,7 +952,7 @@
                         </div>
                     </div>
 
-                    <div class="form-row">
+                    <div class="grid grid-cols-1 gap-0 min-[769px]:grid-cols-2 min-[769px]:gap-5">
                         <div class="form-group">
                             <label for="phone">Phone Number</label>
                             <input type="tel" id="phone" name="phone" placeholder="your phone number"
@@ -1028,7 +1012,8 @@
 
     <!-- Footer -->
     <footer>
-        <div class="footer-content">
+        <div
+            class="mx-auto flex w-full max-w-[1320px] flex-col items-center gap-[18px] text-center min-[769px]:flex-row min-[769px]:justify-between min-[769px]:text-left">
             <a href="#home" class="footer-logo">James</a>
             <p class="footer-text">© 2026 James. All rights reserved.</p>
             <div class="footer-links">
@@ -1048,7 +1033,7 @@
     </div>
 
     <!-- JavaScript -->
-    <script src="script.js"></script>
+    <script type="module" src="./src/main.ts"></script>
 </body>
 
 </html>

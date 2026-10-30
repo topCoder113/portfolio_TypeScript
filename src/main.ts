@@ -1,4 +1,22 @@
-﻿// ==================== LOADER ====================
+import '../style.css';
+
+interface ProjectDetails {
+    title: string;
+    tags: string[];
+    summary: string;
+    stack?: string[];
+    liveUrl?: string;
+    githubUrl?: string;
+    image: string;
+}
+
+interface FormSubmissionResponse {
+    success?: boolean;
+    message?: string;
+    error?: string;
+}
+
+// ==================== LOADER ====================
 window.addEventListener('load', () => {
     setTimeout(() => {
         const loader = document.getElementById('loader');
@@ -19,15 +37,16 @@ if (savedTheme === 'light') document.documentElement.dataset.theme = 'light';
 function updateThemeToggle() {
     if (!themeToggle) return;
     const isLight = document.documentElement.dataset.theme === 'light';
-    themeToggle.setAttribute('aria-pressed', isLight);
+    themeToggle.setAttribute('aria-pressed', String(isLight));
     themeToggle.setAttribute('aria-label', isLight ? 'Switch to dark theme' : 'Switch to light theme');
     themeToggle.innerHTML = `<i class="fas fa-${isLight ? 'moon' : 'sun'}" aria-hidden="true"></i>`;
 }
 
 function updateThemeIcons() {
     const isLight = document.documentElement.dataset.theme === 'light';
-    document.querySelectorAll('img[data-light-src][data-dark-src]').forEach(img => {
-        img.src = isLight ? img.dataset.lightSrc : img.dataset.darkSrc;
+    document.querySelectorAll<HTMLImageElement>('img[data-light-src][data-dark-src]').forEach(img => {
+        const source = isLight ? img.dataset.lightSrc : img.dataset.darkSrc;
+        if (source) img.src = source;
     });
 }
 
@@ -52,14 +71,14 @@ window.addEventListener('scroll', () => {
     } else {
         navbar.classList.remove('scrolled');
     }
-});
+}, { passive: true });
 
 // Mobile menu toggle
 if (menuToggle && mobileMenu) {
     menuToggle.addEventListener('click', () => {
         const isActive = menuToggle.classList.toggle('active');
         mobileMenu.classList.toggle('active');
-        menuToggle.setAttribute('aria-expanded', isActive);
+        menuToggle.setAttribute('aria-expanded', String(isActive));
         document.body.style.overflow = isActive ? 'hidden' : '';
     });
 
@@ -106,7 +125,11 @@ document.querySelectorAll('.reveal, .fade-left, .fade-right, .stagger').forEach(
 // ==================== SKILL BARS ====================
 const skillObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+        if (
+            entry.isIntersecting
+            && entry.target instanceof HTMLElement
+            && !entry.target.classList.contains('animated')
+        ) {
             entry.target.classList.add('animated');
             const width = entry.target.getAttribute('data-width');
             entry.target.style.width = width + '%';
@@ -114,7 +137,7 @@ const skillObserver = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.5 });
 
-document.querySelectorAll('.skill-progress').forEach(bar => {
+document.querySelectorAll<HTMLElement>('.skill-progress').forEach(bar => {
     skillObserver.observe(bar);
 });
 
@@ -148,7 +171,7 @@ if (showMoreSkillsBtn && skillGroups.length > 2) {
 }
 
 // ==================== PROJECT MODAL ====================
-const projectModalData = {
+const projectModalData: Record<string, ProjectDetails> = {
     medtrack: {
         title: 'MedTrack',
         tags: ['Healthcare', 'Patient Care'],
@@ -203,12 +226,12 @@ const projectModal = document.getElementById('projectModal');
 const projectModalTitle = document.getElementById('projectModalTitle');
 const projectModalSummary = document.getElementById('projectModalSummary');
 const projectModalImage = document.getElementById('projectModalImage');
-const projectModalDemo = document.getElementById('projectModalDemo');
-const projectModalGithub = document.getElementById('projectModalGithub');
+const projectModalDemo = document.querySelector<HTMLAnchorElement>('#projectModalDemo');
+const projectModalGithub = document.querySelector<HTMLAnchorElement>('#projectModalGithub');
 
-function openProjectModal(projectKey) {
+function openProjectModal(projectKey: string) {
     const project = projectModalData[projectKey];
-    if (!project || !projectModal) return;
+    if (!project || !projectModal || !projectModalTitle || !projectModalSummary || !projectModalImage) return;
 
     projectModalTitle.textContent = project.title;
     projectModalSummary.textContent = project.summary;
@@ -236,7 +259,7 @@ function closeProjectModal() {
     document.body.style.overflow = '';
 }
 
-document.querySelectorAll('.portfolio-video-card').forEach(card => {
+document.querySelectorAll<HTMLElement>('.portfolio-video-card').forEach(card => {
     const projectKey = card.dataset.project;
     if (!projectKey) return;
 
@@ -251,7 +274,10 @@ document.querySelectorAll('.portfolio-video-card').forEach(card => {
 
 if (projectModal) {
     projectModal.addEventListener('click', (event) => {
-        if (event.target.matches('[data-close-modal="true"]') || event.target === projectModal) {
+        if (
+            event.target instanceof Element
+            && (event.target.matches('[data-close-modal="true"]') || event.target === projectModal)
+        ) {
             closeProjectModal();
         }
     });
@@ -273,11 +299,11 @@ const countObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
             entry.target.classList.add('counted');
-            const target = parseInt(entry.target.getAttribute('data-count')) || 0;
+            const target = Number.parseInt(entry.target.getAttribute('data-count') ?? '0', 10) || 0;
             const duration = 2000;
             const startTime = performance.now();
             
-            const updateCount = (currentTime) => {
+            const updateCount = (currentTime: number) => {
                 const elapsed = currentTime - startTime;
                 const progress = Math.min(elapsed / duration, 1);
                 const easeProgress = 1 - Math.pow(1 - progress, 4);
@@ -297,25 +323,32 @@ const countObserver = new IntersectionObserver((entries) => {
     });
 }, { threshold: 0.5 });
 
-document.querySelectorAll('[data-count]').forEach(num => {
+document.querySelectorAll<HTMLElement>('[data-count]').forEach(num => {
     countObserver.observe(num);
 });
 
 // ==================== FORM SUBMISSION ====================
-const form = document.getElementById('contactForm');
-const submitBtn = document.getElementById('submitBtn');
+const form = document.querySelector<HTMLFormElement>('#contactForm');
+const submitBtn = document.querySelector<HTMLButtonElement>('#submitBtn');
 const toast = document.getElementById('toast');
 const toastMessage = document.getElementById('toastMessage');
 
 if (form) {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
-        // Validation
-        const name = form.querySelector('#name').value.trim();
-        const email = form.querySelector('#email').value.trim();
-        const message = form.querySelector('#message').value.trim();
-        
+
+        const nameField = form.querySelector<HTMLInputElement>('#name');
+        const emailField = form.querySelector<HTMLInputElement>('#email');
+        const messageField = form.querySelector<HTMLTextAreaElement>('#message');
+        if (!nameField || !emailField || !messageField) {
+            showToast('The contact form is missing a required field.', true);
+            return;
+        }
+
+        const name = nameField.value.trim();
+        const email = emailField.value.trim();
+        const message = messageField.value.trim();
+
         if (!name || !email || !message) {
             showToast('Please fill in all required fields.', true);
             return;
@@ -330,7 +363,7 @@ if (form) {
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Sending...</span>';
         }
-        
+
         try {
             const response = await fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
@@ -340,53 +373,61 @@ if (form) {
                 body: new FormData(form)
             });
 
-            let data = { success: false };
-            try {
-                data = await response.json();
-            } catch {
-                data = { success: false };
+            const data: unknown = await response.json();
+            if (!isFormSubmissionResponse(data)) {
+                showToast('The message service returned an unexpected response.', true);
+                return;
             }
 
             if (response.ok && data.success) {
                 showToast('Message sent successfully! I\'ll get back to you soon.', false);
                 form.reset();
             } else {
-                const errorMessage = data?.message || data?.error || 'Something went wrong while sending the message.';
+                const errorMessage = data.message || data.error || 'Something went wrong while sending the message.';
                 showToast(errorMessage, true);
             }
-        } catch (error) {
+        } catch {
             const message = location.protocol === 'file:'
                 ? 'Please open this site through a local server or live website before sending.'
                 : 'Connection error. Please try WhatsApp instead.';
             showToast(message, true);
-        }
-        
-        if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> <span>Send Message</span>';
+        } finally {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> <span>Send Message</span>';
+            }
         }
     });
 }
 
-function showToast(message, isError = false) {
+function isFormSubmissionResponse(value: unknown): value is FormSubmissionResponse {
+    if (typeof value !== 'object' || value === null) return false;
+    const response = value as Record<string, unknown>;
+    return typeof response.success === 'boolean'
+        || typeof response.message === 'string'
+        || typeof response.error === 'string';
+}
+
+let toastTimeout: number | undefined;
+
+function showToast(message: string, isError = false) {
     if (!toast || !toastMessage) return;
-    const icon = toast.querySelector('i');
+    const icon = toast.querySelector<HTMLElement>('i');
     toastMessage.textContent = message;
     toast.classList.toggle('error', isError);
     if (icon) icon.className = isError ? 'fas fa-exclamation-circle' : 'fas fa-check-circle';
     toast.classList.add('show');
-    
-    setTimeout(() => {
+
+    window.clearTimeout(toastTimeout);
+    toastTimeout = window.setTimeout(() => {
         toast.classList.remove('show');
     }, 5000);
 }
 
 // ==================== SMOOTH SCROLL ====================
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        if (!href || !href.startsWith('#')) return;
-        const target = document.querySelector(href);
+document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', (e) => {
+        const target = document.getElementById(anchor.hash.slice(1));
         if (!target) return;
         e.preventDefault();
         const headerOffset = 90;
@@ -417,15 +458,25 @@ const navObserver = new IntersectionObserver((entries) => {
 sections.forEach(section => navObserver.observe(section));
 
 // ==================== PARALLAX FOR HERO ORBS ====================
-document.addEventListener('mousemove', (e) => {
-    const orbs = document.querySelectorAll('.hero-orb');
-    const x = e.clientX / window.innerWidth;
-    const y = e.clientY / window.innerHeight;
-    
-    orbs.forEach((orb, index) => {
-        const speed = (index + 1) * 15;
-        orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
-    });
-});
+const heroOrbs = document.querySelectorAll<HTMLElement>('.hero-orb');
+const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)');
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    
+if (heroOrbs.length && supportsHover.matches && !prefersReducedMotion.matches) {
+    let pointerFrame = 0;
+
+    document.addEventListener('mousemove', (event) => {
+        if (pointerFrame) return;
+        pointerFrame = window.requestAnimationFrame(() => {
+            const x = event.clientX / window.innerWidth;
+            const y = event.clientY / window.innerHeight;
+
+            heroOrbs.forEach((orb, index) => {
+                const speed = (index + 1) * 15;
+                orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+            });
+
+            pointerFrame = 0;
+        });
+    }, { passive: true });
+}
