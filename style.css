@@ -8,12 +8,14 @@
 }
 
 /* ==================== CSS RESET & VARIABLES ==================== */
-*,
-*::before,
-*::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+@layer base {
+    *,
+    *::before,
+    *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 }
 
 :root {
@@ -393,15 +395,6 @@ ol {
     padding: 16px 6%;
     border-bottom: 1px solid var(--border-subtle);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-}
-
-/* ==================== CSS RESET & VARIABLES ==================== */
-*,
-*::before,
-*::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
 }
 
 :root {
